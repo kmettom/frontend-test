@@ -1,0 +1,35 @@
+<div class="otm-modal yabbu-copy-modal">
+
+    <div class="otm-modal-title">
+        <h3 translate="OTM.CONTENT.VIEW.MEETING.COPY.DIALOG-TITLE"></h3>
+    </div>
+
+    <div class="otm-modal-content">
+        <p class="otm-modal-text" translate="OTM.CONTENT.VIEW.MEETING.COPY.DIALOG-CONTENT"></p>
+        <div>
+            <input id="answer_template" ng-model="vm.copyType" type="radio" name="meetingcopy" value="template" checked>
+                <label for="answer_template" translate="OTM.CONTENT.VIEW.MEETING.COPY.DIALOG-RADIO-TEMPLATE"></label><br>
+
+            <div ng-show="vm.isLastInSerie">
+                <input id="answer_serie" ng-model="vm.copyType" type="radio" name="meetingcopy" value="serie">
+                    <label for="answer_serie" translate="OTM.CONTENT.VIEW.MEETING.COPY.DIALOG-RADIO-SERIE"></label><br>
+                <div class="serie-choices" ng-show="vm.copyType === 'serie' && !vm.sessionClosed">
+                    <div ng-disable="vm.sessionClosed"><input id="answer_serie_close" ng-model="vm.closeCurrent" type="radio" name="meetingcopyseries" ng-value="true" checked><label for="answer_serie_close"><b>Close current session</b> (so only the new session is open)</label></div>
+                    <div ng-disable="vm.sessionClosed"><input id="answer_serie_open" ng-model="vm.closeCurrent" type="radio" name="meetingcopyseries" ng-value="false"><label for="answer_serie_open"><b>Keep current session open</b> (and close it later manually)</label></div>
+                </div>
+            </div>
+
+            <div ng-show="!vm.isLastInSerie" class="disabled-text">
+                <input disabled="true" type="radio"><label translate="OTM.CONTENT.VIEW.MEETING.COPY.DIALOG-RADIO-SERIE-IMPOSSIBLE"></label>
+                <a ng-click="vm.goLastInSerie()">Go to the last session</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="otm-modal-footer">
+        <button type="button" class="btn otm-btn-danger" ng-click="closeThisDialog()" translate="OTM.BUTTON.CANCEL"></button>
+        <!--<button type="button" class="btn otm-btn-primary" ng-click="vm.createCopyMeeting()" translate="Copy"></button>-->
+        <button type="submit" class="btn otm-btn-primary" ng-click="vm.submit()" translate="OK"></button>
+    </div>
+
+</div>
