@@ -60,39 +60,12 @@ angular.module('uiApp').controller('CopyMeetingDialogCtrl', function ($scope, $l
     // We check before if there is already a waiting draft in the serie...
     SeriesService.getLastDraftInSerie(_this.meeting.id, _this.meeting.serieId).then(
       function (lastDraftMeeting) {
-        // There is already a draft, so...
-        var title = '';
-        var content = '';
-        var confirmButtonText = '';
-        var showCancelButton = false;
-
-        // We change the alert content according to the author of the draft (current user or someone else)
-        if (AccountService.getCurrentUser().id !== lastDraftMeeting.author.id) {
-
-          title = $filter('translate')('OTM.CONTENT.VIEW.MEETING.COPY.ALREADY-DRAFT.SOMEONE-ELSE.TITLE', {authorFullname:  lastDraftMeeting.author.fullname});
-          content = $filter('translate')('OTM.CONTENT.VIEW.MEETING.COPY.ALREADY-DRAFT.SOMEONE-ELSE.CONTENT', {authorFullname:  lastDraftMeeting.author.fullname, authorEmail: lastDraftMeeting.author.email});
-          confirmButtonText = $filter('translate')('OTM.CONTENT.VIEW.MEETING.COPY.ALREADY-DRAFT.SOMEONE-ELSE.BUTTON');
-
-          showCancelButton = false;
-        }
-        else {
-
-          title = $filter('translate')('OTM.CONTENT.VIEW.MEETING.COPY.ALREADY-DRAFT.YOU.TITLE');
-          content = $filter('translate')('OTM.CONTENT.VIEW.MEETING.COPY.ALREADY-DRAFT.YOU.CONTENT');
-          confirmButtonText = $filter('translate')('OTM.CONTENT.VIEW.MEETING.COPY.ALREADY-DRAFT.YOU.BUTTON');
-
-          showCancelButton = true;
-        }
 
         SweetAlert.swal({
             html: true,
-            title: title,
-            text: content,
+            title: $filter('translate')('OTM.CONTENT.VIEW.MEETING.COPY.ALREADY-DRAFT.SOMEONE-ELSE.TITLE', {authorFullname:  lastDraftMeeting.author.fullname});,
             type: 'warning',
-            showCancelButton: showCancelButton,
-            // confirmButtonColor: '#52CC78',
             cancelButtonText: $filter('translate')('OTM.WARNINGS.CANCEL'),
-            confirmButtonText: confirmButtonText
           }, function (isConfirmed) {
             // If the current user was the author, if he wants, we can directly redirect him to his drafts
             if (showCancelButton && isConfirmed) {

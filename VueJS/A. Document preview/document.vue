@@ -80,22 +80,7 @@
 
     },
     methods: {
-      keyEventEnable(enable){
-        if(enable){
-          window.addEventListener('keyup', this.keyEventAction );
-        }else{
-          window.removeEventListener('keyup' , this.keyEventAction , true);
-        }
-      },
-      keyEventAction(e){
-        if(e.key === "Escape"){
-          this.previewClose();
-        }else if(e.key === "ArrowLeft"){
-          this.changePage(-1);
-        }else if(e.key === "ArrowRight"){
-          this.changePage(1);
-        }
-      },
+
       pageImgLoaded(){
         setTimeout(()=>{
           this.isLoading = false;
@@ -110,13 +95,10 @@
         this.previewInProgress = false;
         this.noPreviewAvailable = false;
         this.isLoading = true;
-        this.keyEventEnable(true);
 
         if(this.documentData){
           if ( this.documentData.previewid ) {
             this.getDocumentPreviewData();
-          } else if ( this.documentData.previewEnabledFormat && !this.documentData.previewid ){
-            this.showPreviewEnabedFormat();
           } else{
             setTimeout(()=>{
               this.noPreviewAvailable = true;
@@ -124,14 +106,7 @@
           }
         }
       },
-      showPreviewEnabedFormat(){
-        let getUrl = window.location.origin + '/dialogs/meet/'+ this.documentData.meetingId + '/document/' + this.documentData.id ;
-        this.$http.get( getUrl ).then( response => {
-          this.previewImage = response.body;
-          this.previewNav.pageCount = 1;
-          this.previewNav.currentPage = 0;
-        })
-      },
+
       getDocumentPreviewData(){
         let getUrl = window.location.origin + '/document/preview/'+ this.documentData.id;
         this.$http.get( getUrl ).then( response => {
